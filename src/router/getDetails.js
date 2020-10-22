@@ -9,7 +9,7 @@ router.get('/category', async (req, res) => {
     }
     catch (err) {
         return res.status(500).send(controller.errorMsgFormat({
-            "message:": err.message
+            "message": err.message
         }, "order-details", 500));
     }
 });
@@ -19,7 +19,7 @@ router.get('/service', async (req, res) => {
     }
     catch (err) {
         return res.status(500).send(controller.errorMsgFormat({
-            "message:": err.message
+            "message": err.message
         }, "order-details", 500));
     }
 });
@@ -29,7 +29,7 @@ router.get('/vehicle', async (req, res) => {
     }
     catch (err) {
         return res.status(500).send(controller.errorMsgFormat({
-            "message:": err.message
+            "message": err.message
         }, "order-details", 500));
     }
 });
@@ -40,7 +40,7 @@ router.get('/description/:vehicle_id', async (req, res) => {
     }
     catch (err) {
         return res.status(500).send(controller.errorMsgFormat({
-            "message:": err.message
+            "message": err.message
         }, "order-details", 500));
     }
 });

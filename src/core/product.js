@@ -11,20 +11,20 @@ const productDetail = () => {
                 let checkData = await vehicles.findOne({ vehicle_name: data.vehicle_name, vehicle_cc: data.vehicle_cc })
                 if (!checkData) {
                     return res.status(400).send(controller.errorMsgFormat({
-                        "message:": "Vehicle Name or CC doesn't exit"
+                        "message": "Vehicle Name or CC doesn't exit"
                     }, 'product-details', 400));
                 }
                 let checkService = await service.findOne({ service_name: data.service_name })
                 if (!checkService) {
                     return res.status(400).send(controller.errorMsgFormat({
-                        "message:": " Service Name doesn't exit"
+                        "message": " Service Name doesn't exit"
                     }, 'product-details', 400));
                 }
 
                 let checkDescription = await description.findOne({ service_id: checkService._id, vehicle_id: checkData._id })
                 if (!checkDescription) {
                     return res.status(400).send(controller.errorMsgFormat({
-                        "message:": "Service Description doesn't exit"
+                        "message": "Service Description doesn't exit"
                     }, 'product-details', 400));
                 }
                 let addPriceAndTax = await description.aggregate([
@@ -60,7 +60,7 @@ const productDetail = () => {
             }
             catch (err) {
                 return res.status(400).send(controller.errorMsgFormat({
-                    "message:": err
+                    "message": err
                 }, 'product-details', 400));
             }
         }

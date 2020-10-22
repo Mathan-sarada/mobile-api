@@ -31,7 +31,7 @@ const getDetails = () => {
             }
             catch (err) {
                 return res.status(400).send(controller.errorMsgFormat({
-                    "message:": check.error
+                    "message": check.error
                 }, 'service', 400));
             }
         },
@@ -61,7 +61,7 @@ const getDetails = () => {
             }
             catch (err) {
                 return res.status(400).send(controller.errorMsgFormat({
-                    "message:": err.message
+                    "message": err.message
                 }, 'service', 400));
             }
         },
@@ -91,7 +91,7 @@ const getDetails = () => {
             }
             catch (err) {
                 return res.status(400).send(controller.errorMsgFormat({
-                    "message:": err.message
+                    "message": err.message
                 }, 'service', 400));
             }
         },
@@ -123,7 +123,7 @@ const getDetails = () => {
             }
             catch (err) {
                 return res.status(400).send(controller.errorMsgFormat({
-                    "message:": err.message
+                    "message": err.message
                 }, 'service', 400));
             }
         },

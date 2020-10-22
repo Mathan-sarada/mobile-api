@@ -10,7 +10,7 @@ const orderDetail = () => {
                 let checkData = await productDetails.findOne({ _id: req.params.product_id })
                 if (!checkData) {
                     return res.status(400).send(controller.errorMsgFormat({
-                        "message:": "Product Id doesn't exit"
+                        "message": "Product Id doesn't exit"
                     }, 'order-details', 400));
                 }
                 let payload ={
@@ -20,11 +20,11 @@ const orderDetail = () => {
                 }
                 await new orderDetails(payload).save()
                 return res.status(200).send(controller.successFormat({
-                    "message:": "Order Have Been Successfully Added"
+                    "message": "Order Have Been Successfully Added"
                 }, 'order-details', 200));
             } catch (err) {
                 return res.status(400).send(controller.errorMsgFormat({
-                    "message:": check.error
+                    "message": check.error
                 }, 'order-details', 400));
             }
 

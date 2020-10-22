@@ -40,7 +40,7 @@ const users = () => {
             }
             catch (err) {
                 return res.status(400).send(controller.errorMsgFormat({
-                    "message:": err.message
+                    "message": err.message
                 }, 'service', 400));
             }
         },
@@ -51,7 +51,7 @@ const users = () => {
                 let checkMobileNumber = await user.findOne({ mobile_number: data.mobile_number });
                 if (!checkMobileNumber) {
                     return res.status(400).send(controller.errorMsgFormat({
-                        "message:": "Mobile Number doesn't exits, Please Login"
+                        "message": "Mobile Number doesn't exits, Please Login"
                     }, 'service', 400));
                 }
                 if (checkMobileNumber.isActive) {
@@ -80,7 +80,7 @@ const users = () => {
             }
             catch (error) {
                 return res.status(400).send(controller.errorMsgFormat({
-                    "message:": error.message
+                    "message": error.message
                 }, 'service', 400));
             }
 
@@ -91,7 +91,7 @@ const users = () => {
                 let checkMobileNumber = await user.findOne({ mobile_number: data.mobile_number });
                 if (!checkMobileNumber) {
                     return res.status(400).send(controller.errorMsgFormat({
-                        "message:": "Mobile Number doesn't exits, Please Login"
+                        "message": "Mobile Number doesn't exits, Please Login"
                     }, 'service', 400));
                 }
                 if (checkMobileNumber.otp == data.otp) {
@@ -100,11 +100,11 @@ const users = () => {
                     }, user))
                 }
                 return res.status(400).send(controller.errorMsgFormat({
-                    "message:": "Otp is wrong "
+                    "message": "Otp is wrong "
                 }, 'service', 400));
             } catch (error) {
                 return res.status(400).send(controller.errorMsgFormat({
-                    "message:": error.message
+                    "message": error.message
                 }, 'service', 400));
             }
 
@@ -114,13 +114,13 @@ const users = () => {
             try {
                 if (!req.query.mobile_number) {
                     return res.status(400).send(controller.errorMsgFormat({
-                        "message:": "Mobile Number is required"
+                        "message": "Mobile Number is required"
                     }, 'service', 400));
                 }
                 let check = await user.findOne({ mobile_number: req.query.mobile_number })
                 if (!check) {
                     return res.status(400).send(controller.errorMsgFormat({
-                        "message:": "Mobile Number doesn't exits, Please Login"
+                        "message": "Mobile Number doesn't exits, Please Login"
                     }, 'service', 400));
                 }
                 await user.deleteOne({ mobile_number:req.query.mobile_number })
@@ -129,7 +129,7 @@ const users = () => {
                 }, user))
             } catch (err) {
                 return res.status(400).send(controller.errorMsgFormat({
-                    "message:": err.message
+                    "message": err.message
                 }, 'service', 400));
             }
         }
