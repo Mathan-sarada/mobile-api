@@ -4,7 +4,7 @@ const controller = require('../core/controller')
 const validation = require('../validation/details.validation');
 const product = require('../core/product')
 
-router.post('/add-product', async (req, res) => {
+router.post('/add-product/:vehicle_id', async (req, res) => {
     try {
         let { error } = await validation.productValidation(req.body.data)
         if (error) {

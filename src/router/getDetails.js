@@ -34,9 +34,20 @@ router.get('/vehicle', async (req, res) => {
     }
 });
 
-router.get('/description/:vehicle_id', async (req, res) => {
+// router.get('/description/:vehicle_id', async (req, res) => {
+//     try {
+//         getDetails.descripton(req, res)
+//     }
+//     catch (err) {
+//         return res.status(500).send(controller.errorMsgFormat({
+//             "message": err.message
+//         }, "order-details", 500));
+//     }
+// });
+
+router.get('/location/:location', async (req, res) => {
     try {
-        getDetails.descripton(req, res)
+        getDetails.location(req, res)
     }
     catch (err) {
         return res.status(500).send(controller.errorMsgFormat({

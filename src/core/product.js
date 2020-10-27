@@ -8,46 +8,56 @@ const productDetail = () => {
         async addProduct(req, res) {
             try {
                 let data = req.body.data;
-                let checkData = await vehicles.findOne({ vehicle_name: data.vehicle_name, vehicle_cc: data.vehicle_cc })
+                let addCart = []
+                let services = data.services;
+                let checkData = await vehicles.findOne({ _id: req.params.vehicle_id })
                 if (!checkData) {
                     return res.status(400).send(controller.errorMsgFormat({
                         "message": "Vehicle Name or CC doesn't exit"
                     }, 'product-details', 400));
                 }
-                let checkService = await service.findOne({ service_name: data.service_name })
-                if (!checkService) {
-                    return res.status(400).send(controller.errorMsgFormat({
-                        "message": " Service Name doesn't exit"
-                    }, 'product-details', 400));
+                let i = 0;
+                while (i < services.length) {
+                    console.log(services[i])
+                    let checkService = await service.findOne({ _id: services[i] })
+                    if (!checkService) {
+                        return res.status(400).send(controller.errorMsgFormat({
+                            "message": " Service Name doesn't exit"
+                        }, 'product-details', 400));
+                    }
+
+                    let checkDescription = await description.findOne({ service_id: services[i], vehicle_id: checkData._id })
+                    if (!checkDescription) {
+                        return res.status(400).send(controller.errorMsgFormat({
+                            "message": "Service Description doesn't exit"
+                        }, 'product-details', 400));
+                    }
+                    let addPriceAndTax = await description.aggregate([
+                        {
+                            $match:
+                            {
+                                service_id: checkDescription.service_id,
+                                vehicle_id: checkData._id
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: '$service_id',
+                                totalPrice: { $sum: '$price' },
+                                totalTax: { $sum: '$tax' },
+                                description: { $push: '$description' }
+                            }
+                        }
+                    ])
+                    addCart.push(addPriceAndTax)
+                    i++;
                 }
 
-                let checkDescription = await description.findOne({ service_id: checkService._id, vehicle_id: checkData._id })
-                if (!checkDescription) {
-                    return res.status(400).send(controller.errorMsgFormat({
-                        "message": "Service Description doesn't exit"
-                    }, 'product-details', 400));
-                }
-                let addPriceAndTax = await description.aggregate([
-                    {
-                        $match:
-                        {
-                            service_id: checkService._id,
-                            vehicle_id: checkData._id
-                        }
-                    },
-                    {
-                        $group: {
-                            _id: '$service_id',
-                            totalPrice: { $sum: '$price' },
-                            totalTax: { $sum: '$tax' },
-                            description: { $push: '$description' }
-                        }
-                    }
-                ]).exec()
+                console.log(JSON.stringify(addCart))
                 let payload = {
                     total_amount: addPriceAndTax[0].totalPrice,
                     total_tax: addPriceAndTax[0].totalTax,
-                    description:addPriceAndTax[0].description,
+                    description: addPriceAndTax[0].description,
                     service_id: checkService._id,
                     vehicle_id: checkData._id
                 }

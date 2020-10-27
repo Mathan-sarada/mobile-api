@@ -33,9 +33,10 @@ const users = () => {
                     otp: `${Math.floor(rand)}`,
                     message_sid: message.sid
                 }
-                await new user(payload).save()
+                let dataDb = await new user(payload).save()
                 return res.status(200).send(controller.successFormat({
-                    'message': "An OTP has been sent to your mobile number."
+                    'message': "An OTP has been sent to your mobile number.",
+                    "user_id": dataDb._id
                 }, user))
             }
             catch (err) {
@@ -123,7 +124,7 @@ const users = () => {
                         "message": "Mobile Number doesn't exits, Please Login"
                     }, 'service', 400));
                 }
-                await user.deleteOne({ mobile_number:req.query.mobile_number })
+                await user.deleteOne({ mobile_number: req.query.mobile_number })
                 return res.status(200).send(controller.successFormat({
                     'message': "Logout Successfully"
                 }, user))
