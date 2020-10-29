@@ -19,7 +19,7 @@ const getDetails = () => {
                         "data": []
                     }, "service", 200));
                 }
-                let getAllCategory = await category.find({})
+                let getAllCategory = await category.find({ status: true })
                 if (getAllCategory.length > 0) {
                     return res.status(200).send(controller.successFormat({
                         "data": getAllCategory
@@ -38,15 +38,15 @@ const getDetails = () => {
         async services(req, res) {
             try {
                 if (req.query.category_id) {
-                    let getService = await service.find({ category_id: req.query.category_id})
-                    .populate({
-                        path: 'category_id',
-                        select: 'category_name'
-                    })
-                    .populate({
-                        path: 'vehicle_id',
-                        select: 'vehicle_cc'
-                    })
+                    let getService = await service.find({ category_id: req.query.category_id, status: true })
+                        .populate({
+                            path: 'category_id',
+                            select: 'category_name'
+                        })
+                        .populate({
+                            path: 'vehicle_id',
+                            select: 'vehicle_cc'
+                        })
                     if (getService.length > 0) {
                         return res.status(200).send(controller.successFormat({
                             "data": getService
@@ -56,14 +56,14 @@ const getDetails = () => {
                         "data": []
                     }, "service", 200));
                 }
-                let getService = await service.find({}).populate({
+                let getService = await service.find({ status: true }).populate({
                     path: 'category_id',
                     select: 'category_name'
                 })
-                .populate({
-                    path: 'vehicle_id',
-                    select: 'vehicle_cc'
-                })
+                    .populate({
+                        path: 'vehicle_id',
+                        select: 'vehicle_cc'
+                    })
                 if (getService.length > 0) {
                     return res.status(200).send(controller.successFormat({
                         "data": getService
@@ -143,7 +143,7 @@ const getDetails = () => {
         // },
         async location(req, res) {
             try {
-                let getLocation = await location.findOne({ location: req.params.location })
+                let getLocation = await location.findOne({ location: req.params.location, status: true })
                 if (getLocation) {
                     return res.status(200).send(controller.successFormat({
                         "data": getLocation
