@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 
 let schema = new mongoose.Schema({
     orderDetails: { type: mongoose.Schema.Types.Mixed },
-    isVerified:{type:Boolean,default:false},
+    isVerified: { type: Boolean, default: false },
+    status: { type: String, default: "Unpaid" }
 }, {
     timestamps: { createdAt: 'created_date', updatedAt: 'modified_date' }
 });
