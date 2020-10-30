@@ -16,7 +16,7 @@ const orderDetails = () => {
                         "message": "User Id  doesn't exit"
                     }, 'product-details', 400));
                 }
-                let checkService = await service.findOne({ _id: data.service_id }).populate({
+                let checkService = await service.findOne({ _id: data.service_id ,status:true}).populate({
                     path: 'category_id',
                     select: 'category_name'
                 })
