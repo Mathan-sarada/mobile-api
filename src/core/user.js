@@ -12,30 +12,33 @@ const users = () => {
             try {
                 let data = req.body.data;
                 const rand = Math.random() * (999999 - 100000) + 100000;
-                let message = await client.messages
-                    .create({
-                        body: `One time password : ${Math.floor(rand)}`,
-                        from: '+1 408 703 5694',
-                        to: `+91${data.mobile_number}`
-                    })
+                // let message = await client.messages
+                //     .create({
+                //         body: `One time password : ${Math.floor(rand)}`,
+                //         from: '+1 408 703 5694',
+                //         to: `+91${data.mobile_number}`
+                //     })
                 let check = await user.findOne({ mobile_number: data.mobile_number });
                 if (check) {
                     check.otp = `${Math.floor(rand)}`
-                    check.message_sid = message.sid
+                    //check.message_sid = message.sid
                     isActive = false
                     check.save()
                     return res.status(200).send(controller.successFormat({
+                        "user_id": check._id,
+                        "otp": check.otp,
                         'message': "An OTP has been sent to your mobile number."
                     }, user))
                 }
                 let payload = {
                     mobile_number: data.mobile_number,
                     otp: `${Math.floor(rand)}`,
-                    message_sid: message.sid
+                    //message_sid: message.sid
                 }
                 let dataDb = await new user(payload).save()
                 return res.status(200).send(controller.successFormat({
                     'message': "An OTP has been sent to your mobile number.",
+                    "otp": payload.otp,
                     "user_id": dataDb._id
                 }, user))
             }
