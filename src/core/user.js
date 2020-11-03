@@ -25,7 +25,6 @@ const users = () => {
                     isActive = false
                     check.save()
                     return res.status(200).send(controller.successFormat({
-                        "user_id": check._id,
                         "otp": check.otp,
                         'message': "An OTP has been sent to your mobile number."
                     }, user))
@@ -35,11 +34,10 @@ const users = () => {
                     otp: `${Math.floor(rand)}`,
                     //message_sid: message.sid
                 }
-                let dataDb = await new user(payload).save()
+                await new user(payload).save()
                 return res.status(200).send(controller.successFormat({
                     'message': "An OTP has been sent to your mobile number.",
                     "otp": payload.otp,
-                    "user_id": dataDb._id
                 }, user))
             }
             catch (err) {
@@ -100,6 +98,7 @@ const users = () => {
                 }
                 if (checkMobileNumber.otp == data.otp) {
                     return res.status(200).send(controller.successFormat({
+                        "user_id": checkMobileNumber._id,
                         'message': "Login Successfully"
                     }, user))
                 }

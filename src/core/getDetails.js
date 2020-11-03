@@ -81,9 +81,9 @@ const getDetails = () => {
         },
         async vehicle(req, res) {
             try {
-                if (req.query.vehicle_name) {
-                    req.query.vehicle_name = req.query.vehicle_name.toLowerCase()
-                    let getVehicle = await vehicles.find({ vehicle_name: { $regex: new RegExp(req.query.vehicle_name) }, status: true })
+                if (req.query.vehicle_cc) {
+                    req.query.vehicle_cc = req.query.vehicle_cc.toLowerCase()
+                    let getVehicle = await vehicles.find({ vehicle_cc: { $regex: new RegExp(req.query.vehicle_cc) }, status: true })
                     if (getVehicle.length > 0) {
                         return res.status(200).send(controller.successFormat({
                             "data": getVehicle
@@ -123,7 +123,7 @@ const getDetails = () => {
         //             })
         //             .populate({
         //                 path: 'vehicle_id',
-        //                 select: 'vehicle_name vehicle_cc'
+        //                 select: 'vehicle_cc vehicle_cc'
         //             })
 
         //         if (getDescription.length > 0) {
@@ -143,8 +143,20 @@ const getDetails = () => {
         // },
         async location(req, res) {
             try {
-                let getLocation = await location.findOne({ location: req.params.location, status: true })
-                if (getLocation) {
+                if (req.query.location_name) {
+                    let getLocation = await location.findOne({ location: req.query.location_name })
+                    if (getLocation) {
+                        return res.status(200).send(controller.successFormat({
+                            "data": getLocation
+                        }, "service", 200));
+                    }
+                    return res.status(200).send(controller.successFormat({
+                        "data": null
+                    }, "service", 200));
+                }
+
+                let getLocation = await location.find({})
+                if (getLocation.length > 0) {
                     return res.status(200).send(controller.successFormat({
                         "data": getLocation
                     }, "service", 200));

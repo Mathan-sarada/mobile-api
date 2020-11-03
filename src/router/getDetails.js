@@ -45,7 +45,7 @@ router.get('/vehicle', async (req, res) => {
 //     }
 // });
 
-router.get('/location/:location', async (req, res) => {
+router.get('/location', async (req, res) => {
     try {
         getDetails.location(req, res)
     }

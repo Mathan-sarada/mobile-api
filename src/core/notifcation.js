@@ -15,7 +15,7 @@ const notification = () => {
                 }
                 await new notifications(data).save()
                 return res.status(200).send(controller.successFormat({
-                    "message": "Message had been successfully updated."
+                    "message": "Message have been successfully send it"
                 }, 'service', 200));
             } catch (err) {
                 return res.status(400).send(controller.errorMsgFormat({
