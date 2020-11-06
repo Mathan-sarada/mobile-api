@@ -13,7 +13,7 @@ router.get('/category', async (req, res) => {
         }, "order-details", 500));
     }
 });
-router.get('/service', async (req, res) => {
+router.get('/service/:category_id', async (req, res) => {
     try {
         getDetails.services(req, res)
     }

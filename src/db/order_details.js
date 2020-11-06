@@ -24,7 +24,7 @@ let addCartSchema = new mongoose.Schema({
     },
     brand: { type: String, required: true },
     location: { type: String, required: true },
-    service_id: { type: String, required: true },
+    service_name: { type: String, required: true },
     mobile_number: { type: String, required: true },
     price: { type: Number, required: true },
     address: { type: String, required: true },

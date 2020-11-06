@@ -56,7 +56,7 @@ const orderDetails = () => {
                         },
                         brand: data.brand,
                         location: data.location,
-                        service_id: checkService._id,
+                        service_name: checkService._service_name,
                         mobile_number: data.mobile_number,
                         address: data.address,
                         service_type: checkService.category_id.category_name
@@ -77,7 +77,7 @@ const orderDetails = () => {
                         price: checkService.price,
                         brand: data.brand,
                         location: data.location,
-                        service_id: checkService._id,
+                        service_name: checkService._service_name,
                         mobile_number: data.mobile_number,
                         address: data.address,
                         service_type: checkService.category_id.category_name
