@@ -7,7 +7,31 @@ const client = require('twilio')(accountSid, authToken);
 
 const users = () => {
     return {
-
+        async verifyMobileNumber(req,res) {
+            try {
+                let data = req.body.data;
+                if (!data.mobile_number) {
+                    return res.status(400).send(controller.errorMsgFormat({
+                        "message": "Mobile is required"
+                    }, 'service', 400));
+                }
+                let check = await user.findOne({ mobile_number: data.mobile_number });
+                if (check) {
+                    return res.status(200).send(controller.successFormat({
+                        "email": check.email,
+                        'name': check.name
+                    }, user))
+                }
+                return res.status(200).send(controller.successFormat({
+                    "email": '',
+                    'name': ''
+                }, user))
+            } catch (err) {
+                return res.status(400).send(controller.errorMsgFormat({
+                    "message": err.message
+                }, 'service', 400));
+            }
+        },
         async login(req, res) {
             try {
                 let data = req.body.data;
@@ -29,9 +53,17 @@ const users = () => {
                         'message': "An OTP has been sent to your mobile number."
                     }, user))
                 }
+                let checkEmail = await user.findOne({ email: data.email });
+                if (checkEmail) {
+                    return res.status(400).send(controller.errorMsgFormat({
+                        "message": "Email already added"
+                    }, 'service', 400));
+                }
                 let payload = {
                     mobile_number: data.mobile_number,
                     otp: `${Math.floor(rand)}`,
+                    email: data.email,
+                    name: data.name
                     //message_sid: message.sid
                 }
                 await new user(payload).save()

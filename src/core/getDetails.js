@@ -144,10 +144,10 @@ const getDetails = () => {
         async location(req, res) {
             try {
                 if (req.query.location_name) {
-                    let getLocation = await location.findOne({ location: req.query.location_name })
+                    let getLocation = await location.find({ location: { $regex: new RegExp(req.query.location_name) } })
                     if (getLocation) {
                         return res.status(200).send(controller.successFormat({
-                            "data": getLocation
+                            "data": getLocation.slice(0, 10)
                         }, "service", 200));
                     }
                     return res.status(200).send(controller.successFormat({

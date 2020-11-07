@@ -3,7 +3,7 @@ const router = express.Router();
 const notification = require('../core/notifcation')
 
 
-router.post('/', async (req, res) => {
+router.post('/:user_id', async (req, res) => {
     try {
         notification.addMessage(req, res)
     }
