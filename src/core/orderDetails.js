@@ -4,6 +4,7 @@ const { service, category } = require('../db/service')
 const validation = require('../validation/details.validation')
 const { user } = require('../db/user')
 const { addCarts, orderDetail } = require('../db/order_details')
+const crypto = require('crypto')
 
 const orderDetails = () => {
     return {
@@ -16,7 +17,7 @@ const orderDetails = () => {
                         "message": "User Id  doesn't exit"
                     }, 'product-details', 400));
                 }
-                let checkService = await service.findOne({ _id: data.service_id ,status:true}).populate({
+                let checkService = await service.findOne({ _id: data.service_id, status: true }).populate({
                     path: 'category_id',
                     select: 'category_name'
                 })
@@ -224,9 +225,10 @@ const orderDetails = () => {
                     orders.push(checkcarts[i])
                     i++;
                 }
-                await new orderDetail({orderDetails:orders}).save()
+                let orderId = await new orderDetail({ orderDetails: orders }).save()
                 await addCarts.deleteMany({ user_id: req.params.user_id })
                 return res.status(200).send(controller.errorMsgFormat({
+                    "order_id": orderId._id,
                     "message": "Order Successfully"
                 }, 'service', 200));
             }
@@ -235,9 +237,7 @@ const orderDetails = () => {
                     "message": err.message
                 }, 'service', 400));
             }
-
         }
-
 
     }
 }
