@@ -219,13 +219,14 @@ const orderDetails = () => {
                 }
                 //await orderDetail.findOneAndUpdate({ user_id: req.params.user_id, is_check: false }, { is_check: true })
                 let i = 0;
-                let orders = []
+                let orders = [],totalAmount=0;
                 while (i < checkcarts.length > 0) {
                     delete checkcarts[i]._id
                     orders.push(checkcarts[i])
+                    totalAmount+=checkcarts[i].price
                     i++;
                 }
-                let orderId = await new orderDetail({ orderDetails: orders }).save()
+                let orderId = await new orderDetail({ orderDetails: orders,totalAmount:totalAmount}).save()
                 await addCarts.deleteMany({ user_id: req.params.user_id })
                 return res.status(200).send(controller.errorMsgFormat({
                     "order_id": orderId._id,

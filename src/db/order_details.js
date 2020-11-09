@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 let schema = new mongoose.Schema({
     orderDetails: { type: mongoose.Schema.Types.Mixed },
+    totalAmount :{type:Number,required:true},
     isVerified: { type: Boolean, default: false },
     status: { type: String, default: "Unpaid" }
 }, {
@@ -15,7 +16,6 @@ let addCartSchema = new mongoose.Schema({
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'users', index: true },
     description: { type: String },
     category_name: { type: String, required: true },
-    amount: { type: Number },
     service_details: {
         vehicle_cc: { type: String },
         model_year: { type: String },

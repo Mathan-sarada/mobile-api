@@ -14,7 +14,13 @@ const payment = () => {
                     
                     let response = req.body.payload.payment.entity;
                     if (req.body.event == "payment.captured" && response.status == 'captured') {
-                        await orderDetail.findOneAndUpdate({ _id: response.notes.order_id }, { status: "Paid" })
+                        let order = await orderDetail.findOne({_id: response.notes.order_id})
+                        if(order.totalAmount == response.amount){
+                            order.status ='Paid',
+                            order.save()
+                        }else{
+                            await orderDetail.findOneAndUpdate({ _id: response.notes.order_id }, { status: "Reject/Amount is mismatch" })
+                        }
                     } else {
                         await orderDetail.findOneAndUpdate({ _id: response.notes.order_id }, { status: "Reject/Event doesn't exits" })
                     }
