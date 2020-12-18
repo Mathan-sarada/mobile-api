@@ -9,8 +9,8 @@ require('dotenv').config()
 mongoose.connect();
 
 
-app.listen(7700, () => {
-    console.log('listening on port 7700!!');
+app.listen(7900, () => {
+    console.log('listening on port 7900!!');
 });
 
 
